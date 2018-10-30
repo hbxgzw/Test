@@ -1,1 +1,16 @@
 这是一个测试文件
+/**
+				 * 如果该条记录失败，却需要重发。 陈华权增加20160630.
+				 */
+				if (FOSSUtil.ORDER_STATUS_ERROR.equals(orderInfo.getStatus())) {
+					if (isNeedResend(orderInfo)) {
+						FlowResendUtil util = new FlowResendUtil();
+						util.handleFlowOrderResent(orderInfo);
+					}else{
+						DingDingUtil.sendNotify("", "请注意,订单【" + orderInfo.getbOrderId() + "】订购失败,原因:" + orderInfo.getGwStatus(), "");
+					}
+				}
+
+				if (CommonUtil.isNotNull(callBackUrl)) {
+					// 客户设置回调URL
+					// orderInfo.setDealFlag(1L);// 等待发送
