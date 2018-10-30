@@ -14,3 +14,26 @@
 				if (CommonUtil.isNotNull(callBackUrl)) {
 					// 客户设置回调URL
 					// orderInfo.setDealFlag(1L);// 等待发送
+					// flowOrderService.saveAndUpdate(orderInfo);
+					// flowOrderService.saveAndUpdate(orderInfo);
+
+				} else {
+					// 客户无设置回调URL
+					/**
+					 * 充值失败需要发送短信通知。
+					 */
+
+					// 可以结束。
+					if (isCodeSuccess(code)) {
+						orderInfo.setDealFlag(3L);// 无需发送
+						flowOrderService.updateDealFlag(orderInfo);
+					} else {
+						if (isCallbackNowError(code, orderInfo)) {
+							orderInfo.setDealFlag(3L);// 无需发送
+							flowOrderService.updateDealFlag(orderInfo);
+
+						}
+					}
+
+				}
+			}
